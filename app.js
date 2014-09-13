@@ -8,10 +8,14 @@ var config = require('config')
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var ig = require('./routes/ig');
 
-// SPIKE
+var app = express();
+
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
 var Instagram = require('instagram-node-lib');
-
 Instagram.set('client_id', config.instagram.client_id);
 Instagram.set('client_secret', config.instagram.client_secret);
 Instagram.set('callback_url', config.root_url + '/callback');
@@ -22,16 +26,10 @@ Instagram.subscriptions.subscribe({
   object: 'tag',
   object_id: 'sanfrancisco',
   aspect: 'media',
-  callback_url: config.root_url + '/callback',
+  callback_url: config.root_url + '/ig/callback',
   type: 'subscription',
   id: '#'
 });
-
-
-var app = express();
-
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
 
 // send first few pictures on initial load
 io.sockets.on('connection', function (socket) {
@@ -58,28 +56,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/ig', ig);
 
-app.get('/callback', function(req, res){
-    var handshake =  Instagram.subscriptions.handshake(req, res);
-});
-
-app.post('/callback', function(req, res) {
-    var data = req.body;
-
-    // Grab the hashtag "tag.object_id"
-    // concatenate to the url and send as a argument to the client side
-    data.forEach(function(tag) {
-      var url = 'https://api.instagram.com/v1/tags/' + tag.object_id + '/media/recent?client_id=' + config.instagram.client_id;
-      console.log(url);
-      sendMessage(url);
-
-    });
-    res.end();
-});
-
-function sendMessage(url) {
-  io.sockets.emit('show', { show: url });
-}
+// function sendMessage(url) {
+//   io.sockets.emit('show', { show: url });
+// }
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
