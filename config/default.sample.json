@@ -1,3 +1,6 @@
 {
-  "instagram_key" : "example-api-key"
+  "instagram" : {
+    "client_id" : "asdf",
+    "client_secret" : "asdf"
+  }
 }
