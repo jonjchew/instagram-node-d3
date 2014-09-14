@@ -17,6 +17,7 @@
     "stylus": "0.42.3",
     "instagram-node-lib": "0.1.1",
     "socket.io" : "~1.1.0",
-    "http-logger" : "*"
+    "http-logger" : "*",
+    "request" : "*"
   }
 }
