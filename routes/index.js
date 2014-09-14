@@ -10,11 +10,19 @@ router.get('/', function(req, res) {
 
 
   io.on('connection', function(socket){
-    socket.join(req.session.id);
-    // req.app.get('sessionStore').set(req.session.id, function(err, data){
-    //   console.log("SESSION STORE SET", data);
-    // });
-  });  
+    socket.on('subscribe', function(room) { 
+        console.log('joining room', room);
+        socket.join(room); 
+    })
+  });
+
+  //   socket.join(req.session.id);
+  //   console.log("JOINED: " + req.session.id)
+  //   if (req.sessionStore.users === undefined){
+  //     req.sessionStore.users = {};
+  //   }
+  //   req.sessionStore.users[req.session.id] = socket;
+  // });  
   res.render('index', { title: 'Express' });
 });
 

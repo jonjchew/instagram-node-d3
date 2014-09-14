@@ -16,19 +16,8 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var session = require('express-session')
-// var RedisStore = require('connect-redis')(session);
 
 var MemoryStore = session.MemoryStore;
-// app.use(session({
-//   genid: function(req) {
-//     return uuid(); // use UUIDs for session IDs
-//   },
-//   store: new RedisStore({
-//       host:'127.0.0.1',
-//       port:6379
-//   }),
-//   secret: 'keyboard cat'
-// }));
 app.use(session({
   genid: function(req) {
     return uuid(); // use UUIDs for session IDs
@@ -38,7 +27,6 @@ app.use(session({
 }));
 
 
-
 var Instagram = require('instagram-node-lib');
 Instagram.set('client_id', config.instagram.client_id);
 Instagram.set('client_secret', config.instagram.client_secret);
@@ -46,24 +34,8 @@ Instagram.set('callback_url', config.root_url + '/callback');
 Instagram.set('redirect_uri', config.root_url);
 Instagram.set('maxSockets', 10);
 
-// Instagram.subscriptions.subscribe({
-//   object: 'tag',
-//   object_id: 'sanfrancisco',
-//   aspect: 'media',
-//   callback_url: config.root_url + '/ig/callback',
-//   type: 'subscription',
-//   id: '#'
-// });
 Instagram.subscriptions.unsubscribe_all();
 
-// io.sockets.on('connection', function (socket) {
-//   Instagram.tags.recent({
-//       name: 'nofilter',
-//       complete: function(data) {
-//         socket.emit('firstShow', { firstShow: data });
-//       }
-//   });
-// });
 app.set('io', io);
 app.set('server', server);
 // view engine setup

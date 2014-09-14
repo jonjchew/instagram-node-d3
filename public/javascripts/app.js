@@ -26,7 +26,7 @@ $(document).ready(function() {
       data: data,
       params: data,
       success: function(response) {
-        console.log(response);
+        socket.emit('subscribe', $('#hashTag').val());
       }
     });
     return false;
