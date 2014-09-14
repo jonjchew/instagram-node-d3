@@ -4,7 +4,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var config = require('config')
 var uuid = require('uuid-v4');
 
 var routes = require('./routes/index');
@@ -16,25 +15,16 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var session = require('express-session')
-
 var MemoryStore = session.MemoryStore;
+
+// Sets up sessions
 app.use(session({
   genid: function(req) {
     return uuid(); // use UUIDs for session IDs
   },
   store: MemoryStore(),
-  secret: 'keyboard cat'
+  secret: 'secret_key'
 }));
-
-
-var Instagram = require('instagram-node-lib');
-Instagram.set('client_id', config.instagram.client_id);
-Instagram.set('client_secret', config.instagram.client_secret);
-Instagram.set('callback_url', config.root_url + '/callback');
-Instagram.set('redirect_uri', config.root_url);
-Instagram.set('maxSockets', 10);
-
-Instagram.subscriptions.unsubscribe_all();
 
 app.set('io', io);
 app.set('server', server);
@@ -54,10 +44,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/ig', ig);
-
-// function sendMessage(url) {
-//   io.sockets.emit('show', { show: url });
-// }
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

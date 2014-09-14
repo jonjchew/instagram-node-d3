@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 var debug = require('debug')('instagram-dataweek');
 var app = require('../app');
-var Instagram = require('instagram-node-lib');
+var instagram = require('../lib/instagram')
 
+instagram.initialize();
 
 app.set('port', process.env.PORT || 3000);
 
