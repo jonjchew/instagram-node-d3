@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var config = require('config')
+var uuid = require('uuid-v4');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -14,6 +15,28 @@ var app = express();
 
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var session = require('express-session')
+// var RedisStore = require('connect-redis')(session);
+
+var MemoryStore = session.MemoryStore;
+// app.use(session({
+//   genid: function(req) {
+//     return uuid(); // use UUIDs for session IDs
+//   },
+//   store: new RedisStore({
+//       host:'127.0.0.1',
+//       port:6379
+//   }),
+//   secret: 'keyboard cat'
+// }));
+app.use(session({
+  genid: function(req) {
+    return uuid(); // use UUIDs for session IDs
+  },
+  store: MemoryStore(),
+  secret: 'keyboard cat'
+}));
+
 
 
 var Instagram = require('instagram-node-lib');
@@ -33,10 +56,6 @@ Instagram.set('maxSockets', 10);
 // });
 Instagram.subscriptions.unsubscribe_all();
 
-io.on('connection', function(socket){
-  console.log('USER CONNECTED!!!!');
-});
-
 // io.sockets.on('connection', function (socket) {
 //   Instagram.tags.recent({
 //       name: 'nofilter',
@@ -45,7 +64,6 @@ io.on('connection', function(socket){
 //       }
 //   });
 // });
-
 app.set('io', io);
 app.set('server', server);
 // view engine setup
@@ -57,7 +75,7 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('keyboard cat'));
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 

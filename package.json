@@ -18,6 +18,8 @@
     "instagram-node-lib": "0.1.1",
     "socket.io" : "~1.1.0",
     "http-logger" : "*",
-    "request" : "*"
+    "request" : "*",
+    "uuid-v4" : "*",
+    "express-session" : "*"
   }
 }
