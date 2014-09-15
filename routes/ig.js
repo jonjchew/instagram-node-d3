@@ -13,17 +13,15 @@ router.post('/callback', function(req, res) {
     var io = req.app.get('io')
     var data = req.body;
 
-    data.forEach(function(tag) {
-      var hashTag = tag.object_id
-      var url = 'https://api.instagram.com/v1/tags/' + hashTag + '/media/recent?client_id=' + config.instagram.client_id;
-      console.log("Received update object for " + hashTag + " hash tag");
-
+    instagram.parseUpdateObjects(data, function(url) {
       request(url, function(error, response, body) {
         jsonBody = JSON.parse(body);
+
         if (jsonBody.meta != null && jsonBody.meta.code === 200) {
           var locationPictures = instagram.filterLocationPictures(jsonBody.data);
           io.sockets.to(hashTag).emit('show', { show: locationPictures });
         }
+
       });
     });
     res.end();
