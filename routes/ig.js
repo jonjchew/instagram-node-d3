@@ -25,7 +25,6 @@ router.post('/callback', function(req, res) {
           io.sockets.to(hashTag).emit('show', { show: locationPictures });
         }
       });
-
     });
     res.end();
 });
@@ -42,15 +41,7 @@ router.post('/subscribe', function(req, res) {
         }
     });
 
-    Instagram.subscriptions.subscribe({
-      object: 'tag',
-      object_id: hashTag,
-      aspect: 'media',
-      callback_url: config.root_url + '/ig/callback',
-      type: 'subscription',
-      id: '#'
-    });
-    console.log("Subscribed to " + hashTag + "hash tag");
+    instagram.subscribeByHashtag(hashTag);
 
     res.writeHead(200);
     return res.end();
