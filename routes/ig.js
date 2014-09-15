@@ -33,12 +33,8 @@ router.post('/subscribe', function(req, res) {
     var io = req.app.get('io')
     var hashTag = req.body.hash_tag;
 
-    Instagram.tags.recent({
-        name: hashTag,
-        complete: function(data) {
-          console.log("Recents pictures for " + hashTag + " sent");
-          io.sockets.to(hashTag).emit('firstShow', { firstShow: data });
-        }
+    instagram.findRecentByHashtag(hashTag, function(data) {
+        io.sockets.to(hashTag).emit('firstShow', { firstShow: data });
     });
 
     instagram.subscribeByHashtag(hashTag);
