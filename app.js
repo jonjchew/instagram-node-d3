@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 var uuid = require('uuid-v4');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
 var ig = require('./routes/ig');
 
 var app = express();
@@ -42,7 +41,6 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
 app.use('/ig', ig);
 
 // catch 404 and forward to error handler
