@@ -11,7 +11,8 @@ router.get('/callback', function(req, res){
 
 router.post('/callback', function(req, res) {
     var io = req.app.get('io')
-    var data = req.body;
+    var data = req.body
+    var hashTag = req.body[0].object_id
 
     instagram.parseUpdateObjects(data, function(url) {
       request(url, function(error, response, body) {
