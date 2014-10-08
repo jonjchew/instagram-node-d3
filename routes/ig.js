@@ -10,11 +10,10 @@ router.get('/callback', function(req, res){
 });
 
 router.post('/callback', function(req, res) {
-    var io = req.app.get('io')
-    var data = req.body
-    var hashTag = req.body[0].object_id
+    var io = req.app.get('io');
+    var data = req.body;
 
-    instagram.parseUpdateObjects(data, function(url) {
+    instagram.parseUpdateObjects(data, function(url, hashTag) {
       request(url, function(error, response, body) {
         jsonBody = JSON.parse(body);
 
@@ -29,7 +28,7 @@ router.post('/callback', function(req, res) {
 });
 
 router.post('/subscribe', function(req, res) {
-    var io = req.app.get('io')
+    var io = req.app.get('io');
     var hashTag = req.body.hash_tag;
 
     instagram.findRecentByHashtag(hashTag, function(data) {
