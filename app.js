@@ -22,7 +22,9 @@ app.use(session({
     return uuid(); // use UUIDs for session IDs
   },
   store: MemoryStore(),
-  secret: 'secret_key'
+  secret: 'secret_key',
+  resave: false,
+  saveUninitialized: false
 }));
 
 app.set('io', io);
