@@ -2,14 +2,11 @@ extends layout
 
 
 block content
-  h1= title
-  p Welcome to #{title}
-  div
+  div(id="search-form")
     form(action='/ig/subscribe',method='post',id='hashTagForm')
       div(class='ui-field-contain')
         fieldset(data-role='controlgroup')
           label(for='hash_tag') Hashtag
              input(id='hashTag',type='text',value='',placeholder='',name='hash_tag')
-      div(class='ui-field-contain')   
-        input(type='submit',value='subscribe',data-transition='fade', data-theme='c')
-  li(id='pictures')
+             input(type='submit',value='subscribe',data-transition='fade', data-theme='c')
+  ul(id="posts-container")
