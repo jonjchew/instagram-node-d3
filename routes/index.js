@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var world50m = require('../maps/world-50m.json')
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -16,5 +17,9 @@ router.get('/', function(req, res) {
   });
   res.render('index', { title: 'Express' });
 });
+
+router.get('/world-50m', function(req, res){
+  res.json(world50m)
+})
 
 module.exports = router;

@@ -19,7 +19,7 @@ router.post('/callback', function(req, res) {
 
         if (jsonBody.meta != null && jsonBody.meta.code === 200) {
           var locationPictures = instagram.filterLocationPictures(jsonBody.data);
-          io.sockets.to(hashTag).emit('show', { show: locationPictures });
+          io.sockets.to(hashTag).emit('msg', { posts: locationPictures });
         }
 
       });
@@ -32,7 +32,7 @@ router.post('/subscribe', function(req, res) {
     var hashTag = req.body.hash_tag;
 
     instagram.findRecentByHashtag(hashTag, function(data) {
-        io.sockets.to(hashTag).emit('firstShow', { firstShow: data });
+        io.sockets.to(hashTag).emit('msg', { posts: data });
     });
 
     instagram.subscribeByHashtag(hashTag);
