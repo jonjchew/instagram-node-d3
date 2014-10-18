@@ -63,6 +63,7 @@ MessageHandler.prototype.bindSearchForm = function() {
       params: data,
       success: function(response) {
         self.socket.emit('subscribe', $('#hashTag').val());
+        self.shownPictures = [];
       }
     });
     return false;
