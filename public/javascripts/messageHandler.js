@@ -23,12 +23,9 @@ MessageHandler.prototype.handleIncomingPosts = function(data) {
   var self = this;
 
   data.posts.forEach(function(post){
-    for(var i = 0; i < self.shownPictures.length; i++) {
-      if (self.shownPictures[i] === post.id) {
-        break;
-      }
-    self.postsQueue.push(self.parse(post));
-    self.shownPictures.push(post.id);
+    if (self.shownPictures.indexOf(post.id) === -1) {
+      self.postsQueue.push(self.parse(post));
+      self.shownPictures.push(post.id);
     }
   })
 }
