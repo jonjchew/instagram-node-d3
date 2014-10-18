@@ -6,6 +6,7 @@ function MessageHandler() {
   self.map = Map()
 
   self.postsQueue = [];
+  self.shownPictures = [];
 }
 
 MessageHandler.prototype.start = function() {
@@ -22,7 +23,10 @@ MessageHandler.prototype.handleIncomingPosts = function(data) {
   var self = this;
 
   data.posts.forEach(function(post){
-    self.postsQueue.push(self.parse(post));
+    if (self.shownPictures.indexOf(post.id) === -1) {
+      self.postsQueue.push(self.parse(post));
+      self.shownPictures.push(post.id);
+    }
   })
 }
 
@@ -56,6 +60,7 @@ MessageHandler.prototype.bindSearchForm = function() {
       params: data,
       success: function(response) {
         self.socket.emit('subscribe', $('#hashTag').val());
+        self.shownPictures = [];
       }
     });
     return false;
