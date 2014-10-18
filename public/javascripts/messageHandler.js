@@ -6,6 +6,7 @@ function MessageHandler() {
   self.map = Map()
 
   self.postsQueue = [];
+  self.shownPictures = [];
 }
 
 MessageHandler.prototype.start = function() {
@@ -22,7 +23,13 @@ MessageHandler.prototype.handleIncomingPosts = function(data) {
   var self = this;
 
   data.posts.forEach(function(post){
+    for(var i = 0; i < self.shownPictures.length; i++) {
+      if (self.shownPictures[i] === post.id) {
+        break;
+      }
     self.postsQueue.push(self.parse(post));
+    self.shownPictures.push(post.id);
+    }
   })
 }
 
