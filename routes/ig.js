@@ -21,7 +21,6 @@ router.post('/callback', function(req, res) {
           var locationPictures = instagram.filterLocationPictures(jsonBody.data);
           io.sockets.to(hashTag).emit('msg', { posts: locationPictures });
         }
-
       });
     });
     res.end();
@@ -32,14 +31,18 @@ router.post('/subscribe', function(req, res) {
     var hashTag = req.body.hash_tag;
 
     instagram.findRecentByHashtag(hashTag, function(data) {
-        io.sockets.to(hashTag).emit('msg', { posts: data });
+      io.sockets.to(hashTag).emit('msg', { posts: data });
     });
 
-    instagram.subscribeByHashtag(hashTag);
+    instagram.subscribeByHashtag(hashTag, function(subscriptionId) {
+      if (req.sessionStore.subscriptions === undefined) {
+        req.sessionStore.subscriptionIds = {};
+      }
+      req.sessionStore.subscriptionIds[hashTag] = subscriptionId;
+    });
 
     res.writeHead(200);
     return res.end();
-
 });
 
 module.exports = router;
