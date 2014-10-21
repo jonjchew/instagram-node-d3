@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var uuid = require('uuid-v4');
 
-var routes = require('./routes/index');
+var root = require('./routes/index');
 var ig = require('./routes/ig');
 
 var app = express();
@@ -15,6 +15,9 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var session = require('express-session')
 var MemoryStore = session.MemoryStore;
+
+var socket = require('./lib/socket_helper')
+var instagram = require('./lib/instagram')
 
 // Sets up sessions
 app.use(session({
@@ -42,7 +45,7 @@ app.use(cookieParser('secret_key'));
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+app.use('/', root);
 app.use('/ig', ig);
 
 // catch 404 and forward to error handler
@@ -75,6 +78,12 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
+
+instagram.initialize();
+
+socket.initialize(io, function(hashTag){
+  instagram.unsubscribeByHashTag(hashTag);
+})
 
 
 module.exports = app;
