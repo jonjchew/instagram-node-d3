@@ -1,0 +1,7 @@
+{
+  "instagram" : {
+    "client_id" : "asdf",
+    "client_secret" : "asdf"
+  },
+  "root_url" : "http://noded3.herokuapp.com"
+}
