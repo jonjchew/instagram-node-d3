@@ -1,3 +1,4 @@
 $(document).ready(function() {
-  MessageHandler().start()
+  MessageHandler().start();
+  DocumentEvents().initialize();
 });

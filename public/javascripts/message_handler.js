@@ -53,6 +53,7 @@ MessageHandler.prototype.bindSearchForm = function() {
 
   $('#hashTagForm').submit(function(evt) {
     var data = $(this).serialize();
+    data = data.replace(/%23/,'');
     $.ajax({
       type: "POST",
       url: "/ig/subscribe",

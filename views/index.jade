@@ -2,11 +2,11 @@ extends layout
 
 
 block content
-  div(id="search-form")
-    form(action='/ig/subscribe',method='post',id='hashTagForm')
-      div(class='ui-field-contain')
-        fieldset(data-role='controlgroup')
-          label(for='hash_tag') Hashtag
-             input(id='hashTag',type='text',value='',placeholder='',name='hash_tag')
-             input(type='submit',value='subscribe',data-transition='fade', data-theme='c')
-  ul(id="posts-container")
+  div(id="search-form-div")
+    form(action='/ig/subscribe',method='post',id='hashTagForm', class='centered')
+      label(for='hash_tag') #
+      input(id='hashTag',type='text',placeholder='nofilter',name='hash_tag')
+      p
+      button(type='submit') Find
+  div(id="map-div", class="hidden")
+    ul(id="posts-container")
