@@ -1,4 +1,4 @@
 $(document).ready(function() {
   MessageHandler().start();
-  DocumentEvents().initialize();
+  DocumentEvents.initialize();
 });

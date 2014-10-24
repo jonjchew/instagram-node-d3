@@ -1,26 +1,26 @@
-function DocumentEvents() {
-  if (!(this instanceof DocumentEvents)) return new DocumentEvents();
-}
+var DocumentEvents = {
 
-DocumentEvents.prototype.initialize = function() {
-  this.bindKeyboard();
-}
+  initialize: function() {
+    this.bindKeyboard();
+    $('#hashTag').focus();
+  },
 
-DocumentEvents.prototype.bindKeyboard = function(data) {
-  $('#hashTag').bind('keypress', function(e) {
-    var regex = new RegExp("^[a-zA-Z0-9_-]+$");
-    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-    if (!regex.test(key)) {
-       event.preventDefault();
-       return false;
-    }
-  }); 
-}
+  bindKeyboard: function() {
+    $('#hashTag').bind('keypress', function(e) {
+      if (e.which == 13) {
+        e.preventDefault();
+        $("#hashTagForm").submit();
+      }
+      var regex = new RegExp("^[a-zA-Z0-9_-]+$");
+      var key = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+      if (!regex.test(key)) {
+         e.preventDefault();
+         return false;
+      }
+    }); 
+  },
 
-DocumentEvents.prototype.hideSearchForm = function(post) {
-  $('#search-form-div').addClass('hidden');
-}
-
-MessageHandler.prototype.showMap = function() {
-  $('map-div').removeClass('hidden');
+  hideSearchForm: function() {
+    $('#search-form-div').addClass('hidden');
+  }
 }

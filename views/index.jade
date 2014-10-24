@@ -1,12 +1,11 @@
 extends layout
 
-
 block content
   div(id="search-form-div")
-    form(action='/ig/subscribe',method='post',id='hashTagForm', class='centered')
+    form(action='/ig/subscribe',method='post', id='hashTagForm', class='centered')
       label(for='hash_tag') #
-      input(id='hashTag',type='text',placeholder='nofilter',name='hash_tag')
+      input(id='hashTag',type='text', placeholder='nofilter',name='hash_tag')
       p
       button(type='submit') Find
-  div(id="map-div", class="hidden")
+  div(id="map-div")
     ul(id="posts-container")
