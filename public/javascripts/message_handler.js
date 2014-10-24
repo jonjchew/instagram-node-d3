@@ -51,17 +51,20 @@ MessageHandler.prototype.performStep = function() {
 MessageHandler.prototype.bindSearchForm = function() {
   var self = this;
 
-  $('#hashTagForm').submit(function(evt) {
+  $('.hash-tag-form').submit(function(evt) {
     var data = $(this).serialize();
+    var inputtedHashTag = $(this).find('input[name="hash_tag"]').val()
     $.ajax({
       type: "POST",
       url: "/ig/subscribe",
       data: data,
       params: data,
       success: function(response) {
-        self.socket.emit('subscribe', $('#hashTag').val());
+        self.socket.emit('subscribe', inputtedHashTag);
         self.shownPictures = [];
         DocumentEvents.hideSearchForm();
+        DocumentEvents.showMap();
+        $('#map-div .hash-tag-input').val('');
       }
     });
     return false;

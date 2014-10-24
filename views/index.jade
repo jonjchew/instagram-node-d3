@@ -2,10 +2,15 @@ extends layout
 
 block content
   div(id="search-form-div")
-    form(action='/ig/subscribe',method='post', id='hashTagForm', class='centered')
+    form(action='/ig/subscribe',method='post', class='centered hash-tag-form')
       label(for='hash_tag') #
-      input(id='hashTag',type='text', placeholder='nofilter',name='hash_tag')
+      input(class='hash-tag-input',type='text', placeholder='nofilter',name='hash_tag', autocomplete='off')
       p
       button(type='submit') Find
   div(id="map-div")
+    div(id='corner-search-div')
+      form(action='/ig/subscribe',method='post',class='hash-tag-form')
+        input(class='hash-tag-input',type='text', placeholder='Find another hash tag...',name='hash_tag', autocomplete='off')
+        button(type='submit')
+          i(class='fa fa-search')
     ul(id="posts-container")
