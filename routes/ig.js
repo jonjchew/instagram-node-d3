@@ -30,13 +30,18 @@ router.post('/subscribe', function(req, res) {
   var hashTag = req.body.hash_tag;
 
   instagram.findRecentByHashtag(hashTag, function(error, results) {
-      if(error || results.length === 0) {
+      if (error || results.length === 0) {
          res.status(400).end();
       }
       else {
         var locationPictures = instagram.filterLocationPictures(results);
-        instagram.subscribeByHashtag(hashTag);
-        res.send(locationPictures);
+        if (locationPictures.length === 0) {
+          res.status(400).end();
+        }
+        else {
+          instagram.subscribeByHashtag(hashTag);
+          res.send(locationPictures);
+        }
       }
   });
 });

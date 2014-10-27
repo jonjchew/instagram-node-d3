@@ -43,7 +43,11 @@ var DocumentEvents = {
   },
 
   showHashTagQueried: function(hashTag) {
-    $('#hash-tag-display p').text('#' + hashTag);
+    $('#hash-tag-display').addClass('hidden');
+    setTimeout(function() {
+      $('#hash-tag-display p').text('#' + hashTag);
+      $('#hash-tag-display').removeClass('hidden');
+    }, 600)
   }
 
 }

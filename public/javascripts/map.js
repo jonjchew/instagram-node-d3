@@ -62,7 +62,7 @@ Map.prototype.drawCircle = function(position) {
     .transition()
     .duration(1500)
     .ease('linear')
-    .attr('r', '300px')
+    .attr('r', '200px')
     .attr('stroke', '#007bb6')
     .attr('stroke-width', '2px')
     .attr('fill', 'none')
