@@ -64,10 +64,11 @@ MessageHandler.prototype.bindSearchForms = function() {
       url: "/ig/subscribe",
       data: data,
       params: data,
-      success: function(response) {
-        self.socket.emit('subscribe', inputtedHashTag);
-        self.shownPictures = [];
+      success: function(recentPictures) {
         self.postsQueue = [];
+        self.shownPictures = [];
+        self.handleIncomingPosts({ posts: recentPictures });
+        self.socket.emit('subscribe', inputtedHashTag);
         DocumentEvents.submitHashTag(inputtedHashTag);
       },
       error: function (request, status, error) {

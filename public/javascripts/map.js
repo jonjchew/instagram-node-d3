@@ -60,10 +60,12 @@ Map.prototype.drawCircle = function(position) {
     .style('opacity', 1)
     .attr('r', '0px')
     .transition()
-    .duration(2000)
+    .duration(1500)
     .ease('linear')
     .attr('r', '300px')
-    .attr("fill", "#007bb6")
+    .attr('stroke', '#007bb6')
+    .attr('stroke-width', '2px')
+    .attr('fill', 'none')
     .style('opacity', 0);
 }
 

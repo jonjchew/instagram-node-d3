@@ -31,15 +31,13 @@ router.post('/subscribe', function(req, res) {
 
   instagram.findRecentByHashtag(hashTag, function(error, results) {
       if(error || results.length === 0) {
-        res.writeHead(400);
+         res.status(400).end();
       }
       else {
-        res.writeHead(200);
+        var locationPictures = instagram.filterLocationPictures(results);
         instagram.subscribeByHashtag(hashTag);
-        io.sockets.to(hashTag).emit('msg', { posts: results });
-        return res.end();
+        res.send(locationPictures);
       }
-      return res.end();
   });
 });
 
