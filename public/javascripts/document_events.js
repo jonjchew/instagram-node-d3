@@ -20,6 +20,13 @@ var DocumentEvents = {
     }); 
   },
 
+  submitHashTag: function(hashTag) {
+    this.hideSearchForm();
+    this.showMap();
+    this.resetSecondSearchForm();
+    this.showHashTagQueried(hashTag);
+  },
+
   hideSearchForm: function() {
     $('#search-form-div').addClass('hidden');
   },
@@ -28,5 +35,15 @@ var DocumentEvents = {
     setTimeout(function() {
       $('#map-div').css('z-index', '1');
     }, 300);
+  },
+
+  resetSecondSearchForm: function() {
+    $('#map-div .hash-tag-input').val('');
+    $('#map-div .hash-tag-input').focus();
+  },
+
+  showHashTagQueried: function(hashTag) {
+    $('#hash-tag-display p').text('#' + hashTag);
   }
+
 }

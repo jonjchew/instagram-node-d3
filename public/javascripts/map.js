@@ -15,6 +15,7 @@ function Map(opts) {
     .precision(.1);
   self.path = d3.geo.path().projection(self.projection);
   self.svg = d3.select("#map-div").append("svg")
+    .attr("fill", '#CCC')
     .attr("width", self.width)
     .attr("height", self.height);
   self.land = {}
@@ -62,7 +63,7 @@ Map.prototype.drawCircle = function(position) {
     .duration(2000)
     .ease('linear')
     .attr('r', '300px')
-    .attr("fill", "yellow")
+    .attr("fill", "#007bb6")
     .style('opacity', 0);
 }
 

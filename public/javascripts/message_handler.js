@@ -53,7 +53,12 @@ MessageHandler.prototype.bindSearchForms = function() {
 
   $('.hash-tag-form').submit(function(evt) {
     var data = $(this).serialize();
-    var inputtedHashTag = $(this).find('input[name="hash_tag"]').val()
+    var inputtedHashTag = $(this).find('input[name="hash_tag"]').val();
+    var regex = new RegExp("^[a-zA-Z0-9_-]+$");
+    // Validates for invalid copy and pasted values or blank text field
+    if(!regex.test(inputtedHashTag)) {
+      return false;
+    }
     $.ajax({
       type: "POST",
       url: "/ig/subscribe",
@@ -62,9 +67,7 @@ MessageHandler.prototype.bindSearchForms = function() {
       success: function(response) {
         self.socket.emit('subscribe', inputtedHashTag);
         self.shownPictures = [];
-        DocumentEvents.hideSearchForm();
-        DocumentEvents.showMap();
-        $('#map-div .hash-tag-input').val('');
+        DocumentEvents.submitHashTag(inputtedHashTag);
       }
     });
     return false;

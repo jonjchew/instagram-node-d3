@@ -99,6 +99,17 @@ button:hover {
   top: 0;
   left: 0;
 }
+#hash-tag-display {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 30px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 100px;
+}
+#hash-tag-display p {
+  margin-bottom: 0px;
+}
 #posts-container {
   position: absolute;
   top: 3rem;
