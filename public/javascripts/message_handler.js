@@ -3,7 +3,7 @@ function MessageHandler() {
   if (!(this instanceof MessageHandler)) return new MessageHandler();
 
   self.socket = io();
-  self.map = Map()
+  self.map = Map();
 
   self.postsQueue = [];
   self.shownPictures = [];
@@ -12,11 +12,11 @@ function MessageHandler() {
 MessageHandler.prototype.start = function() {
   var self = this;
 
-  self.bindSearchForm()
-  self.map.render()
+  self.bindSearchForms();
+  self.map.render();
 
-  self.socket.on('msg', self.handleIncomingPosts.bind(self))
-  setInterval(self.performStep.bind(self), 5000)
+  self.socket.on('msg', self.handleIncomingPosts.bind(self));
+  setInterval(self.performStep.bind(self), 5000);
 }
 
 MessageHandler.prototype.handleIncomingPosts = function(data) {
@@ -48,7 +48,7 @@ MessageHandler.prototype.performStep = function() {
     })
   }
 }
-MessageHandler.prototype.bindSearchForm = function() {
+MessageHandler.prototype.bindSearchForms = function() {
   var self = this;
 
   $('.hash-tag-form').submit(function(evt) {

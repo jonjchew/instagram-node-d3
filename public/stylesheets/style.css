@@ -12,6 +12,9 @@ a {
   height: 100%;
   text-align: center;
   background-color: #fff;
+  background-image: url("/images/map.png");
+  background-repeat: no-repeat;
+  background-size: cover;
   -webkit-transition: all 0.5s ease-in-out;
   -moz-transition: all 0.5s ease-in-out;
   -ms-transition: all 0.5s ease-in-out;
