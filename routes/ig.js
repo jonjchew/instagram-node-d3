@@ -29,15 +29,18 @@ router.post('/subscribe', function(req, res) {
   var io = req.app.get('io');
   var hashTag = req.body.hash_tag;
 
-  instagram.findRecentByHashtag(hashTag, function(data) {
-      io.sockets.to(hashTag).emit('msg', { posts: data });
+  instagram.findRecentByHashtag(hashTag, function(error, results) {
+      if(error || results.length === 0) {
+        res.writeHead(400);
+      }
+      else {
+        res.writeHead(200);
+        instagram.subscribeByHashtag(hashTag);
+        io.sockets.to(hashTag).emit('msg', { posts: results });
+        return res.end();
+      }
+      return res.end();
   });
-
-  instagram.subscribeByHashtag(hashTag);
-
-  res.writeHead(200);
-  return res.end();
-
 });
 
 module.exports = router;

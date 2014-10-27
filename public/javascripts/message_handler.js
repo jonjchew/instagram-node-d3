@@ -69,6 +69,9 @@ MessageHandler.prototype.bindSearchForms = function() {
         self.shownPictures = [];
         self.postsQueue = [];
         DocumentEvents.submitHashTag(inputtedHashTag);
+      },
+      error: function (request, status, error) {
+        alert("Invalid hash tag request");
       }
     });
     return false;

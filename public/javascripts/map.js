@@ -15,7 +15,7 @@ function Map(opts) {
     .precision(.1);
   self.path = d3.geo.path().projection(self.projection);
   self.svg = d3.select("#map-div").append("svg")
-    .attr("fill", '#CCC')
+    .attr("fill", '#ddeaf3')
     .attr("width", self.width)
     .attr("height", self.height);
   self.land = {}
