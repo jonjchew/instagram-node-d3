@@ -67,6 +67,7 @@ MessageHandler.prototype.bindSearchForms = function() {
       success: function(response) {
         self.socket.emit('subscribe', inputtedHashTag);
         self.shownPictures = [];
+        self.postsQueue = [];
         DocumentEvents.submitHashTag(inputtedHashTag);
       }
     });
