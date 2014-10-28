@@ -29,15 +29,21 @@ router.post('/subscribe', function(req, res) {
   var io = req.app.get('io');
   var hashTag = req.body.hash_tag;
 
-  instagram.findRecentByHashtag(hashTag, function(data) {
-      io.sockets.to(hashTag).emit('msg', { posts: data });
+  instagram.findRecentByHashtag(hashTag, function(error, results) {
+      if (error || results.length === 0) {
+         res.status(400).end();
+      }
+      else {
+        var locationPictures = instagram.filterLocationPictures(results);
+        if (locationPictures.length === 0) {
+          res.status(400).end();
+        }
+        else {
+          instagram.subscribeByHashtag(hashTag);
+          res.send(locationPictures);
+        }
+      }
   });
-
-  instagram.subscribeByHashtag(hashTag);
-
-  res.writeHead(200);
-  return res.end();
-
 });
 
 module.exports = router;

@@ -3,7 +3,7 @@ function MessageHandler() {
   if (!(this instanceof MessageHandler)) return new MessageHandler();
 
   self.socket = io();
-  self.map = Map()
+  self.map = Map();
 
   self.postsQueue = [];
   self.shownPictures = [];
@@ -12,11 +12,11 @@ function MessageHandler() {
 MessageHandler.prototype.start = function() {
   var self = this;
 
-  self.bindSearchForm()
-  self.map.render()
+  self.bindSearchForms();
+  self.map.render();
 
-  self.socket.on('msg', self.handleIncomingPosts.bind(self))
-  setInterval(self.performStep.bind(self), 5000)
+  self.socket.on('msg', self.handleIncomingPosts.bind(self));
+  setInterval(self.performStep.bind(self), 5000);
 }
 
 MessageHandler.prototype.handleIncomingPosts = function(data) {
@@ -48,19 +48,31 @@ MessageHandler.prototype.performStep = function() {
     })
   }
 }
-MessageHandler.prototype.bindSearchForm = function() {
+MessageHandler.prototype.bindSearchForms = function() {
   var self = this;
 
-  $('#hashTagForm').submit(function(evt) {
+  $('.hash-tag-form').submit(function(evt) {
     var data = $(this).serialize();
+    var inputtedHashTag = $(this).find('input[name="hash_tag"]').val();
+    var regex = new RegExp("^[a-zA-Z0-9_-]+$");
+    // Validates for invalid copy and pasted values or blank text field
+    if(!regex.test(inputtedHashTag)) {
+      return false;
+    }
     $.ajax({
       type: "POST",
       url: "/ig/subscribe",
       data: data,
       params: data,
-      success: function(response) {
-        self.socket.emit('subscribe', $('#hashTag').val());
+      success: function(recentPictures) {
+        self.postsQueue = [];
         self.shownPictures = [];
+        self.handleIncomingPosts({ posts: recentPictures });
+        self.socket.emit('subscribe', inputtedHashTag);
+        DocumentEvents.submitHashTag(inputtedHashTag);
+      },
+      error: function (request, status, error) {
+        alert("Invalid hash tag request");
       }
     });
     return false;

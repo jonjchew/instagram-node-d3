@@ -14,7 +14,8 @@ function Map(opts) {
     .translate([self.width / 2, self.height / 2])
     .precision(.1);
   self.path = d3.geo.path().projection(self.projection);
-  self.svg = d3.select("body").append("svg")
+  self.svg = d3.select("#map-div").append("svg")
+    .attr("fill", '#ddeaf3')
     .attr("width", self.width)
     .attr("height", self.height);
   self.land = {}
@@ -59,10 +60,12 @@ Map.prototype.drawCircle = function(position) {
     .style('opacity', 1)
     .attr('r', '0px')
     .transition()
-    .duration(2000)
+    .duration(1500)
     .ease('linear')
-    .attr('r', '300px')
-    .attr("fill", "yellow")
+    .attr('r', '200px')
+    .attr('stroke', '#007bb6')
+    .attr('stroke-width', '2px')
+    .attr('fill', 'none')
     .style('opacity', 0);
 }
 

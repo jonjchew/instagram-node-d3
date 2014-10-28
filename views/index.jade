@@ -1,12 +1,18 @@
 extends layout
 
-
 block content
-  div(id="search-form")
-    form(action='/ig/subscribe',method='post',id='hashTagForm')
-      div(class='ui-field-contain')
-        fieldset(data-role='controlgroup')
-          label(for='hash_tag') Hashtag
-             input(id='hashTag',type='text',value='',placeholder='',name='hash_tag')
-             input(type='submit',value='subscribe',data-transition='fade', data-theme='c')
-  ul(id="posts-container")
+  div(id="search-form-div")
+    form(action='/ig/subscribe',method='post', class='centered hash-tag-form')
+      label(for='hash_tag') #
+      input(class='hash-tag-input',type='text', placeholder='nofilter',name='hash_tag', autocomplete='off')
+      p
+      button(type='submit') Find
+  div(id="map-div")
+    div(id='corner-search-div')
+      form(action='/ig/subscribe',method='post',class='hash-tag-form')
+        input(class='hash-tag-input',type='text', placeholder='Find another hash tag...',name='hash_tag', autocomplete='off')
+        button(type='submit')
+          i(class='fa fa-search')
+    div(id='hash-tag-display', class='hidden')
+      p
+    ul(id="posts-container")
