@@ -5,7 +5,6 @@ block content
     form(action='/ig/subscribe',method='post', class='centered hash-tag-form')
       label(for='hash_tag') #
       input(class='hash-tag-input',type='text', placeholder='nofilter',name='hash_tag', autocomplete='off')
-      p
       button(type='submit') Find
   div(id="map-div")
     div(id='corner-search-div')
@@ -15,4 +14,4 @@ block content
           i(class='fa fa-search')
     div(id='hash-tag-display', class='hidden')
       p
-    ul(id="posts-container")
+    div(id='posts-container')
