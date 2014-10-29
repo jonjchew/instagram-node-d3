@@ -16,7 +16,7 @@ MessageHandler.prototype.start = function() {
   self.map.render();
 
   self.socket.on('msg', self.handleIncomingPosts.bind(self));
-  setInterval(self.performStep.bind(self), 5000);
+  setInterval(self.performStep.bind(self), 5500);
 }
 
 MessageHandler.prototype.handleIncomingPosts = function(data) {
@@ -33,7 +33,8 @@ MessageHandler.prototype.handleIncomingPosts = function(data) {
 MessageHandler.prototype.parse = function(post) {
   return {
     location: [ post.location.longitude, post.location.latitude ],
-    pictureUrl: post.images.standard_resolution.url
+    pictureUrl: post.images.thumbnail.url,
+    postUrl: post.link
   }
 }
 MessageHandler.prototype.performStep = function() {
@@ -43,8 +44,8 @@ MessageHandler.prototype.performStep = function() {
 
     self.map.removeCircle()
     self.map.step(post.location, function(){
+      self.map.positionImage(post.pictureUrl, post.postUrl)
       self.map.drawCircle(post.location)
-      self.map.positionImage(post.pictureUrl)
     })
   }
 }

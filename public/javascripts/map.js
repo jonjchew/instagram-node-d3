@@ -15,7 +15,7 @@ function Map(opts) {
     .precision(.1);
   self.path = d3.geo.path().projection(self.projection);
   self.svg = d3.select("#map-div").append("svg")
-    .attr("fill", '#ddeaf3')
+    .attr("fill", '#34495e')
     .attr("width", self.width)
     .attr("height", self.height);
   self.land = {}
@@ -63,8 +63,8 @@ Map.prototype.drawCircle = function(position) {
     .duration(1500)
     .ease('linear')
     .attr('r', '200px')
-    .attr('stroke', '#007bb6')
-    .attr('stroke-width', '2px')
+    .attr('stroke', '#f2f2f2')
+    .attr('stroke-width', '3px')
     .attr('fill', 'none')
     .style('opacity', 0);
 }
@@ -74,6 +74,9 @@ Map.prototype.removeCircle = function() {
   $(circle).remove()
 }
 
-Map.prototype.positionImage = function(url) {
-  $('#posts-container').html($('<li>').html("<img src='" + url + "'/>"));
+Map.prototype.positionImage = function(imgUrl, postUrl) {
+  var newContainer = "<div><a href='" + postUrl + "' target='_blank'>" + "<img src='" + imgUrl + "'/></a></div>"
+    $('#posts-container').fadeOut('slow',function(){
+      $(this).html(newContainer).fadeIn('slow')
+    });
 }
