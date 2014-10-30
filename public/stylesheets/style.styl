@@ -4,15 +4,16 @@ body
   width: 100vw
   height: 100vh
   background-color: #001220
+  color: #d7d7d7
+  font-family: 'Open Sans', sans-serif
 
 a
   color: #00B7FF
 
 #search-form-div
   position: absolute
-  top: 0
-  left: 0
-  font-family: 'Open Sans', sans-serif
+  top: 0px
+  left: 0px
   width: 100%
   height: 100%
   text-align: center
@@ -49,7 +50,7 @@ input[type=text]
 
 input[type=text]:focus
   border-color: #007bb6
-  outline: 0
+  outline: 0px
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(0, 123, 182, .6)
 
 #search-form-div .hash-tag-input
@@ -70,7 +71,7 @@ button
   font-size: 25px
   font-family: 'Open Sans', sans-serif
   color: #fff
-  background-color: #007bb6
+  background-color: #01405F
   border-color: #517fa4
   border: 1px solid transparent
   cursor: pointer
@@ -80,16 +81,12 @@ button
   -o-transition: background-color 0.30s ease-in-out
 
 button:hover
-  background-color: #0072b1
+  background-color: #002C41
 
 #map-div button
   font-size: 12px
   height: 27px
   width: 30px
-  background-color: #01405F
-
-#map-div button:hover
-  background-color: #002C41
 
 .centered
   position: relative
@@ -98,22 +95,22 @@ button:hover
 #map-div
   z-index: -1
   position: absolute
-  top: 0
-  left: 0
+  top: 0px
+  left: 0px
   width: 100%
   height: 100%
+  font-family: 'Open Sans', sans-serif
 
 #corner-search-div
   position: absolute
-  top: 0
-  left: 0
+  top: 0px
+  left: 0px
 
 #hash-tag-display
   position: absolute
-  bottom: 0
-  right: 0
+  bottom: 0px
+  right: 0px
   padding: 30px
-  font-family: 'Open Sans', sans-serif
   font-size: 100px
   -webkit-transition: all 0.5s ease-in-out;
   -moz-transition: all 0.5s ease-in-out;
@@ -122,13 +119,12 @@ button:hover
 
 #hash-tag-display p
   margin-bottom: 0px
-  color: #d7d7d7
   font-size: 3rem
 
 #posts-container
   position: absolute
   left: 1rem
-  bottom: 1rem
+  bottom: 1.5rem
 
 #posts-container div
   width: 160px
@@ -143,9 +139,20 @@ button:hover
   left: 5px
   top: 5px
 
+#captions-container
+  font-size: 12px
+  position: absolute
+  bottom: 1.5rem
+  left: 180px
+  width: 500px
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+
 .modal-content
+  color: #555
   text-align: center
-  font-family: 'Open Sans', sans-serif
   width: 300px
   height: 150px
   padding: 20px

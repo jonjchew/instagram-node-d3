@@ -3,6 +3,7 @@ var DocumentEvents = {
   initialize: function() {
     this.bindKeyboard();
     this.bindModal();
+    this.bindCaptionDisplay();
     this.resetFirstSearchForm();
   },
 
@@ -87,4 +88,11 @@ var DocumentEvents = {
     document.title = '#' + hashTag;
   },
 
+  bindCaptionDisplay: function() {
+    $('#posts-container').hover(function() {
+      $('#captions-container').removeClass('hidden');
+    }, function() {
+      $('#captions-container').addClass('hidden');
+    })
+  }
 }

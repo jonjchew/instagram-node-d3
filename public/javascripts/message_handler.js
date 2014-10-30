@@ -31,11 +31,16 @@ MessageHandler.prototype.handleIncomingPosts = function(data) {
 }
 
 MessageHandler.prototype.parse = function(post) {
-  return {
+  var postObject = {
     location: [ post.location.longitude, post.location.latitude ],
     pictureUrl: post.images.thumbnail.url,
-    postUrl: post.link
+    postUrl: post.link,
+    caption: ''
   }
+  if (post.caption != null) {
+    postObject.caption = post.caption.text
+  }
+  return postObject;
 }
 MessageHandler.prototype.performStep = function() {
   var self = this;
@@ -44,8 +49,9 @@ MessageHandler.prototype.performStep = function() {
 
     self.map.removeCircle()
     self.map.step(post.location, function(){
-      self.map.positionImage(post.pictureUrl, post.postUrl)
-      self.map.drawCircle(post.location)
+      self.map.positionImage(post.pictureUrl, post.postUrl);
+      self.map.drawCircle(post.location);
+      self.map.replaceCaption(post.caption);
     })
   }
 }
@@ -56,7 +62,6 @@ MessageHandler.prototype.bindSearchForms = function() {
     var data = $(this).serialize();
     var inputtedHashTag = $(this).find('input[name="hash_tag"]').val();
     var regex = new RegExp("^[a-zA-Z0-9_-]+$");
-    // Validates for invalid copy and pasted values or blank text field
     if(!regex.test(inputtedHashTag)) {
       return false;
     }
