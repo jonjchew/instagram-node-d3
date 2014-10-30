@@ -73,7 +73,7 @@ MessageHandler.prototype.bindSearchForms = function() {
         DocumentEvents.submitHashTag(inputtedHashTag);
       },
       error: function (request, status, error) {
-        alert("Invalid hash tag request");
+        DocumentEvents.showModal(request.responseText);
       }
     });
     return false;
