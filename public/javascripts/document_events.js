@@ -36,7 +36,7 @@ var DocumentEvents = {
   showMap: function() {
     setTimeout(function() {
       $('#map-div').css('z-index', '1');
-    }, 300);
+    }, 550);
   },
 
   resetFirstSearchForm: function() {
