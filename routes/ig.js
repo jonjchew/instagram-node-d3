@@ -14,9 +14,14 @@ router.post('/callback', function(req, res) {
 
   instagram.parseUpdateObjects(data, function(url, hashTag) {
     request(url, function(error, response, body) {
-      jsonBody = JSON.parse(body);
+      try {
+        var jsonBody = JSON.parse(body);
+      }
+      catch(err) {
+        console.log(body);
+      }
 
-      if (jsonBody.meta != null && jsonBody.meta.code === 200) {
+      if (jsonBody != undefined && jsonBody.meta != null && jsonBody.meta.code === 200) {
         var locationPictures = instagram.filterLocationPictures(jsonBody.data);
         io.sockets.to(hashTag).emit('msg', { posts: locationPictures });
       }
