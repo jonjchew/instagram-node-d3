@@ -4,7 +4,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var uuid = require('uuid-v4');
 
 var root = require('./routes/index');
 var ig = require('./routes/ig');
@@ -14,17 +13,12 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var session = require('express-session')
-var MemoryStore = session.MemoryStore;
 
 var socket = require('./lib/socket_helper')
 var instagram = require('./lib/instagram')
 
 // Sets up sessions
 app.use(session({
-  genid: function(req) {
-    return uuid(); // use UUIDs for session IDs
-  },
-  store: MemoryStore(),
   secret: 'secret_key',
   resave: false,
   saveUninitialized: false
