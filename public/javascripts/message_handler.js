@@ -14,7 +14,7 @@ MessageHandler.prototype.start = function() {
 
   self.bindSearchForms();
   self.map.render();
-  self.updating = false;
+  self.isUpdating = false;
 
   self.socket.on('msg', self.handleIncomingPosts.bind(self));
   setInterval(self.performStep.bind(self), 5500);
@@ -22,8 +22,7 @@ MessageHandler.prototype.start = function() {
 
 MessageHandler.prototype.handleIncomingPosts = function(data) {
   var self = this;
-  self.updating = true;
-  self.noPictureStepCount = 0;
+  self.isUpdating = true;
 
   data.posts.forEach(function(post){
     if (self.shownPictures.indexOf(post.id) === -1) {
@@ -48,6 +47,7 @@ MessageHandler.prototype.parse = function(post) {
 MessageHandler.prototype.performStep = function() {
   var self = this;
   if (self.postsQueue.length) {
+    self.noPictureStepCount = 0;
     post = self.postsQueue.shift()
 
     self.map.removeCircle()
@@ -58,10 +58,10 @@ MessageHandler.prototype.performStep = function() {
     })
   }
   else {
-    if (self.updating) {
+    if (self.isUpdating) {
       self.noPictureStepCount++;
       if (self.noPictureStepCount >= 2) {
-        self.updating = false;
+        self.isUpdating = false;
         DocumentEvents.showModal('Not enough people are posting with your hashtag. Maybe try something more popular like #nofilter or #tbt?')
       }
     }
