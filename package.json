@@ -19,7 +19,6 @@
     "socket.io" : "~1.1.0",
     "http-logger" : "*",
     "request" : "*",
-    "uuid-v4" : "*",
     "express-session" : "*"
   }
 }

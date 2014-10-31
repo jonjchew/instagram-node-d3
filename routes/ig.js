@@ -14,9 +14,14 @@ router.post('/callback', function(req, res) {
 
   instagram.parseUpdateObjects(data, function(url, hashTag) {
     request(url, function(error, response, body) {
-      jsonBody = JSON.parse(body);
+      try {
+        var jsonBody = JSON.parse(body);
+      }
+      catch(err) {
+        console.log(body);
+      }
 
-      if (jsonBody.meta != null && jsonBody.meta.code === 200) {
+      if (jsonBody != undefined && jsonBody.meta != null && jsonBody.meta.code === 200) {
         var locationPictures = instagram.filterLocationPictures(jsonBody.data);
         io.sockets.to(hashTag).emit('msg', { posts: locationPictures });
       }
@@ -31,12 +36,12 @@ router.post('/subscribe', function(req, res) {
 
   instagram.findRecentByHashtag(hashTag, function(error, results) {
       if (error || results.length === 0) {
-         res.status(400).end();
+         res.status(400).send('The hashtag you entered cannot be viewed. Try a hashtag like #nofilter or #tbt.');
       }
       else {
         var locationPictures = instagram.filterLocationPictures(results);
         if (locationPictures.length === 0) {
-          res.status(400).end();
+          res.status(400).send("Couldn't find any pictures with locations for your hashtag. Try a more popular hashtag like #nofilter or #tbt.");
         }
         else {
           instagram.subscribeByHashtag(hashTag);

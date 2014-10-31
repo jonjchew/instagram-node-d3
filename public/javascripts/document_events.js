@@ -2,7 +2,9 @@ var DocumentEvents = {
 
   initialize: function() {
     this.bindKeyboard();
-    $('#search-form-div .hash-tag-input').focus();
+    this.bindModal();
+    this.bindCaptionDisplay();
+    this.resetFirstSearchForm();
   },
 
   bindKeyboard: function() {
@@ -25,6 +27,7 @@ var DocumentEvents = {
     this.showMap();
     this.resetSecondSearchForm();
     this.showHashTagQueried(hashTag);
+    this.setDocumentTitle(hashTag);
   },
 
   hideSearchForm: function() {
@@ -34,7 +37,12 @@ var DocumentEvents = {
   showMap: function() {
     setTimeout(function() {
       $('#map-div').css('z-index', '1');
-    }, 300);
+    }, 550);
+  },
+
+  resetFirstSearchForm: function() {
+    $('#search-form-div .hash-tag-input').val('');
+    $('#search-form-div .hash-tag-input').focus();
   },
 
   resetSecondSearchForm: function() {
@@ -48,6 +56,43 @@ var DocumentEvents = {
       $('#hash-tag-display p').text('#' + hashTag);
       $('#hash-tag-display').removeClass('hidden');
     }, 600)
-  }
+  },
 
+  showModal: function(message) {
+    if (message === '') {
+      message = 'Something went wrong.'
+    }
+    $('.modal-content span').text(message);
+    $('#alert-modal').modal('show');
+  },
+
+  hideModal: function() {
+    $('#alert-modal').modal('hide');
+  },
+
+  bindModal: function() {
+    var self = this;
+    $('.modal button').click(function() {
+      self.hideModal();
+    });
+    $('.modal').on('hide.bs.modal', function() {
+      if ($('#search-form-div').hasClass('hidden')) {
+        self.resetSecondSearchForm();
+      } else {
+        self.resetFirstSearchForm();
+      }
+    })
+  },
+
+  setDocumentTitle: function(hashTag) {
+    document.title = '#' + hashTag;
+  },
+
+  bindCaptionDisplay: function() {
+    $('#posts-container').hover(function() {
+      $('#captions-container').removeClass('hidden');
+    }, function() {
+      $('#captions-container').addClass('hidden');
+    })
+  }
 }

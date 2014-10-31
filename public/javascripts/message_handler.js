@@ -14,6 +14,7 @@ MessageHandler.prototype.start = function() {
 
   self.bindSearchForms();
   self.map.render();
+  self.isUpdating = false;
 
   self.socket.on('msg', self.handleIncomingPosts.bind(self));
   setInterval(self.performStep.bind(self), 5500);
@@ -21,6 +22,7 @@ MessageHandler.prototype.start = function() {
 
 MessageHandler.prototype.handleIncomingPosts = function(data) {
   var self = this;
+  self.isUpdating = true;
 
   data.posts.forEach(function(post){
     if (self.shownPictures.indexOf(post.id) === -1) {
@@ -31,22 +33,38 @@ MessageHandler.prototype.handleIncomingPosts = function(data) {
 }
 
 MessageHandler.prototype.parse = function(post) {
-  return {
+  var postObject = {
     location: [ post.location.longitude, post.location.latitude ],
     pictureUrl: post.images.thumbnail.url,
-    postUrl: post.link
+    postUrl: post.link,
+    caption: ''
   }
+  if (post.caption != null) {
+    postObject.caption = post.caption.text
+  }
+  return postObject;
 }
 MessageHandler.prototype.performStep = function() {
   var self = this;
   if (self.postsQueue.length) {
+    self.noPictureStepCount = 0;
     post = self.postsQueue.shift()
 
     self.map.removeCircle()
     self.map.step(post.location, function(){
-      self.map.positionImage(post.pictureUrl, post.postUrl)
-      self.map.drawCircle(post.location)
+      self.map.positionImage(post.pictureUrl, post.postUrl);
+      self.map.drawCircle(post.location);
+      self.map.replaceCaption(post.caption);
     })
+  }
+  else {
+    if (self.isUpdating) {
+      self.noPictureStepCount++;
+      if (self.noPictureStepCount >= 2) {
+        self.isUpdating = false;
+        DocumentEvents.showModal('Not enough people are posting with your hashtag. Maybe try something more popular like #nofilter or #tbt?')
+      }
+    }
   }
 }
 MessageHandler.prototype.bindSearchForms = function() {
@@ -56,7 +74,6 @@ MessageHandler.prototype.bindSearchForms = function() {
     var data = $(this).serialize();
     var inputtedHashTag = $(this).find('input[name="hash_tag"]').val();
     var regex = new RegExp("^[a-zA-Z0-9_-]+$");
-    // Validates for invalid copy and pasted values or blank text field
     if(!regex.test(inputtedHashTag)) {
       return false;
     }
@@ -73,7 +90,7 @@ MessageHandler.prototype.bindSearchForms = function() {
         DocumentEvents.submitHashTag(inputtedHashTag);
       },
       error: function (request, status, error) {
-        alert("Invalid hash tag request");
+        DocumentEvents.showModal(request.responseText);
       }
     });
     return false;

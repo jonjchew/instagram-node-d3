@@ -80,3 +80,8 @@ Map.prototype.positionImage = function(imgUrl, postUrl) {
       $(this).html(newContainer).fadeIn('slow')
     });
 }
+
+Map.prototype.replaceCaption = function(caption) {
+  $('#captions-container').text(caption);
+}
+
