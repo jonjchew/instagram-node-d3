@@ -35,7 +35,7 @@ MessageHandler.prototype.handleIncomingPosts = function(data) {
 MessageHandler.prototype.parse = function(post) {
   var postObject = {
     location: [ post.location.longitude, post.location.latitude ],
-    pictureUrl: post.images.thumbnail.url,
+    pictureUrl: post.images.low_resolution.url,
     postUrl: post.link,
     caption: ''
   }
@@ -60,7 +60,7 @@ MessageHandler.prototype.performStep = function() {
   else {
     if (self.isUpdating) {
       self.noPictureStepCount++;
-      if (self.noPictureStepCount >= 2) {
+      if (self.noPictureStepCount == 2) {
         self.isUpdating = false;
         DocumentEvents.showModal('Not enough people are posting with your hashtag. Maybe try something more popular like #nofilter or #tbt?')
       }
