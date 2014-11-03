@@ -60,9 +60,9 @@ MessageHandler.prototype.performStep = function() {
   else {
     if (self.isUpdating) {
       self.noPictureStepCount++;
-      if (self.noPictureStepCount == 2) {
+      if (self.noPictureStepCount == 3) {
         self.isUpdating = false;
-        DocumentEvents.showModal('Not enough people are posting with your hashtag. Maybe try something more popular like #nofilter or #tbt?')
+        DocumentEvents.showModal('Not enough pictures with your hashtag right now. Maybe try something more popular like #nofilter, #love,  or #love?')
       }
     }
   }

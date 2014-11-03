@@ -36,12 +36,12 @@ router.post('/subscribe', function(req, res) {
 
   instagram.findRecentByHashtag(hashTag, function(error, results) {
       if (error || results.length === 0) {
-         res.status(400).send('The hashtag you entered cannot be viewed. Try a hashtag like #nofilter or #tbt.');
+         res.status(400).send('The hashtag you entered cannot be viewed. Try a hashtag like #nofilter, #love, or #selfie.');
       }
       else {
         var locationPictures = instagram.filterLocationPictures(results);
         if (locationPictures.length === 0) {
-          res.status(400).send("Couldn't find any pictures with locations for your hashtag. Try a more popular hashtag like #nofilter or #tbt.");
+          res.status(400).send("Couldn't find any pictures with locations for your hashtag. Try a more popular hashtag like #nofilter, #love, or #selfie.");
         }
         else {
           instagram.subscribeByHashtag(hashTag);
