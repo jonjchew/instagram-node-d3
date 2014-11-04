@@ -67,15 +67,25 @@ Map.prototype.drawCircle = function(position) {
     .attr('stroke-width', '3px')
     .attr('fill', 'none')
     .style('opacity', 0);
+
+  this.svg.append("text")
+    .attr('x', circle[0])
+    .attr('y', circle[1])
+    .attr('fill', '#d7d7d7')
+    .attr("dy", "1em")
 }
 
 Map.prototype.removeCircle = function() {
   var circle = $('circle')
+  var text = $('text')
+
   $(circle).remove()
+  $(text).remove()
+
 }
 
-Map.prototype.positionImage = function(imgUrl, postUrl) {
-  var newContainer = "<div><a href='" + postUrl + "' target='_blank'>" + "<img src='" + imgUrl + "'/></a></div>"
+Map.prototype.positionPicture = function(pictureUrl, postUrl) {
+  var newContainer = "<div><a href='" + postUrl + "' target='_blank'>" + "<img src='" + pictureUrl + "'/></a></div>"
     $('#posts-container').fadeOut('slow',function(){
       $(this).html(newContainer).fadeIn('slow')
     });
@@ -83,5 +93,24 @@ Map.prototype.positionImage = function(imgUrl, postUrl) {
 
 Map.prototype.replaceCaption = function(caption) {
   $('#captions-container').text(caption);
+}
+
+Map.prototype.getLocation = function(position) {
+  var self = this;
+  var geocoder = new google.maps.Geocoder();
+  var latLng = new google.maps.LatLng(position[1], position[0]);
+
+  geocoder.geocode({'latLng': latLng}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      if (results[3]) {
+        self.svg.select("text")
+          .text(results[3].formatted_address.toUpperCase());
+      } else {
+        self.svg.select("text")
+          .text(results[2].formatted_address.toUpperCase());
+      }
+    }
+  });
+
 }
 
