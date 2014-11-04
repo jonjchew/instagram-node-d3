@@ -19,6 +19,7 @@
     "socket.io" : "~1.1.0",
     "http-logger" : "*",
     "request" : "*",
-    "express-session" : "*"
+    "express-session" : "*",
+    "express-sslify" : "0.1.0"
   }
 }

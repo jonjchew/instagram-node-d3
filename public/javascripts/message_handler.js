@@ -38,8 +38,8 @@ MessageHandler.prototype.handleIncomingPosts = function(data) {
 MessageHandler.prototype.parse = function(post) {
   var postObject = {
     location: [ post.location.longitude, post.location.latitude ],
-    pictureUrl: post.images.low_resolution.url,
-    postUrl: post.link,
+    pictureUrl: post.images.low_resolution.url.replace('http://', '//'),
+    postUrl: post.link.replace('http://', '//'),
     caption: ''
   }
   if (post.caption != null) {

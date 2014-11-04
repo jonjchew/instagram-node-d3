@@ -4,11 +4,18 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var enforce = require('express-sslify');
 
 var root = require('./routes/index');
 var ig = require('./routes/ig');
 
+
 var app = express();
+
+// use HTTPS only when not in development and behind Heroku's LB
+if (app.get('env') !== 'development') {
+    app.use(enforce.HTTPS());
+}
 
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
