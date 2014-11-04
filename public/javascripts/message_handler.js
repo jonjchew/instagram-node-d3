@@ -52,7 +52,7 @@ MessageHandler.prototype.performStep = function() {
 
     self.map.removeCircle()
     self.map.step(post.location, function(){
-      self.map.positionImage(post.pictureUrl, post.postUrl);
+      self.map.positionPicture(post.pictureUrl, post.postUrl);
       self.map.drawCircle(post.location);
       self.map.replaceCaption(post.caption);
     })

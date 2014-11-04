@@ -74,8 +74,8 @@ Map.prototype.removeCircle = function() {
   $(circle).remove()
 }
 
-Map.prototype.positionImage = function(imgUrl, postUrl) {
-  var newContainer = "<div><a href='" + postUrl + "' target='_blank'>" + "<img src='" + imgUrl + "'/></a></div>"
+Map.prototype.positionPicture = function(pictureUrl, postUrl) {
+  var newContainer = "<div><a href='" + postUrl + "' target='_blank'>" + "<img src='" + pictureUrl + "'/></a></div>"
     $('#posts-container').fadeOut('slow',function(){
       $(this).html(newContainer).fadeIn('slow')
     });
