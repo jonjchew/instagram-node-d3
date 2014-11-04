@@ -26,8 +26,11 @@ MessageHandler.prototype.handleIncomingPosts = function(data) {
 
   data.posts.forEach(function(post){
     if (self.shownPictures.indexOf(post.id) === -1) {
-      self.postsQueue.push(self.parse(post));
+      var parsedPost = self.parse(post);
+
       self.shownPictures.push(post.id);
+      self.postsQueue.push(parsedPost);
+      self.cachePicture(parsedPost.pictureUrl)
     }
   })
 }
@@ -95,4 +98,9 @@ MessageHandler.prototype.bindSearchForms = function() {
     });
     return false;
   });
+}
+
+MessageHandler.prototype.cachePicture = function(pictureUrl) {
+  var img = new Image();
+  img.src = pictureUrl;
 }
