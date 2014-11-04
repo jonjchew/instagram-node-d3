@@ -54,6 +54,7 @@ MessageHandler.prototype.performStep = function() {
     self.map.step(post.location, function(){
       self.map.positionImage(post.pictureUrl, post.postUrl);
       self.map.drawCircle(post.location);
+      self.map.getLocation(post.location);
       self.map.replaceCaption(post.caption);
     })
   }
