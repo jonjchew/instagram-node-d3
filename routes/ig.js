@@ -13,18 +13,13 @@ router.post('/callback', function(req, res) {
   var io = req.app.get('io');
   var data = req.body;
 
-  instagram.parseUpdateObjects(data, function(url, hashTag) {
-    request(url, function(error, response, body) {
-      console.log('Requesting Instagram API for ' + hashTag + 'pictures');
-      try {
-        var jsonBody = JSON.parse(body);
+  instagram.parseUpdateObjects(data, function(hashTag) {
+    instagram.findRecentByHashtag(hashTag, function(error, results) {
+      if(error) {
+        console.log(error);
       }
-      catch(err) {
-        console.log(body);
-      }
-
-      if (jsonBody != undefined && jsonBody.meta != null && jsonBody.meta.code === 200) {
-        var locationPictures = instagram.filterLocationPictures(jsonBody.data);
+      else if(results.length) {
+        var locationPictures = instagram.filterLocationPictures(results);
         io.sockets.to(hashTag).emit('msg', { posts: locationPictures });
       }
     });
