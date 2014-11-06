@@ -57,12 +57,14 @@ router.post('/subscribe', function(req, res) {
 
 router.get('/health_check', function(req, res) {
   var io = req.app.get('io');
+  var connected_clients = socket.findClients(io);
   instagram.getStatus(function (error, result) {
     if(error) {
+      error.connected_clients = connected_clients;
       res.status(400).send(error);
     }
     else {
-      result.connected_clients = socket.findClients(io);
+      result.connected_clients = connected_clients;
       res.send(result);
     }
   })
