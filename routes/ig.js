@@ -3,6 +3,7 @@ var router = express.Router();
 var config = require('config');
 var request = require("request");
 var instagram = require('../lib/instagram')
+var socket = require('../lib/socket_helper')
 
 router.get('/callback', function(req, res){
   var handshake =  instagram.handshake(req, res);
@@ -14,6 +15,7 @@ router.post('/callback', function(req, res) {
 
   instagram.parseUpdateObjects(data, function(url, hashTag) {
     request(url, function(error, response, body) {
+      console.log('Requesting Instagram API for ' + hashTag + 'pictures');
       try {
         var jsonBody = JSON.parse(body);
       }
@@ -31,7 +33,6 @@ router.post('/callback', function(req, res) {
 });
 
 router.post('/subscribe', function(req, res) {
-  var io = req.app.get('io');
   var hashTag = req.body.hash_tag;
 
   instagram.findRecentByHashtag(hashTag, function(error, results) {
@@ -50,5 +51,18 @@ router.post('/subscribe', function(req, res) {
       }
   });
 });
+
+router.get('/health_check', function(req, res) {
+  var io = req.app.get('io');
+  instagram.getStatus(function (error, result) {
+    if(error) {
+      res.status(400).send(error);
+    }
+    else {
+      result.connected_clients = socket.findClients(io);
+      res.send(result);
+    }
+  })
+})
 
 module.exports = router;
