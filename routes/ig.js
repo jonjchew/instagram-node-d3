@@ -4,6 +4,8 @@ var config = require('config');
 var request = require("request");
 var instagram = require('../lib/instagram')
 var socket = require('../lib/socket_helper')
+var RateLimiter = require('limiter').RateLimiter;
+var limiter = new RateLimiter(1, 2000);
 
 router.get('/callback', function(req, res){
   var handshake =  instagram.handshake(req, res);
@@ -11,16 +13,22 @@ router.get('/callback', function(req, res){
 
 router.post('/callback', function(req, res) {
   var io = req.app.get('io');
-  var data = req.body;
 
-  instagram.parseUpdateObjects(data, function(hashTag) {
-    instagram.findRecentByHashtag(hashTag, function(error, results) {
-      if(error) {
-        console.log(error);
+  instagram.parseUpdateObjects(req.body, function(hashTag) {
+    limiter.removeTokens(1, function(err, remainingRequests) {
+      if (remainingRequests < 0) {
+        res.status(429).send("Too many requests");
       }
-      else if(results.length) {
-        var locationPictures = instagram.filterLocationPictures(results);
-        io.sockets.to(hashTag).emit('msg', { posts: locationPictures });
+      else {
+        instagram.findRecentByHashtag(hashTag, function(error, results) {
+          if(error) {
+            console.log(error);
+          }
+          else if(results.length) {
+            var locationPictures = instagram.filterLocationPictures(results);
+            io.sockets.to(hashTag).emit('msg', { posts: locationPictures });
+          }
+        });
       }
     });
   });
