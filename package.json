@@ -20,6 +20,7 @@
     "http-logger" : "*",
     "request" : "*",
     "express-session" : "*",
-    "express-sslify" : "0.1.0"
+    "express-sslify" : "0.1.0",
+    "limiter": "*"
   }
 }
