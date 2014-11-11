@@ -5,7 +5,7 @@ var request = require("request");
 var instagram = require('../lib/instagram')
 var socket = require('../lib/socket_helper')
 var RateLimiter = require('limiter').RateLimiter;
-var limiter = new RateLimiter(1, 2000);
+var limiter = new RateLimiter(1, 2000, true);
 
 router.get('/callback', function(req, res){
   var handshake =  instagram.handshake(req, res);
