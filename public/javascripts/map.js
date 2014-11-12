@@ -76,12 +76,10 @@ Map.prototype.drawCircle = function(position) {
 }
 
 Map.prototype.removeCircle = function() {
-  var circle = $('circle')
-  var text = $('text')
+  var circle = $('circle');
 
-  $(circle).remove()
-  $(text).remove()
-
+  $(circle).remove();
+  $('#location-display').addClass('hidden');
 }
 
 Map.prototype.positionPicture = function(pictureUrl, postUrl) {
@@ -102,15 +100,37 @@ Map.prototype.getLocation = function(position) {
 
   geocoder.geocode({'latLng': latLng}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
-      if (results[3]) {
-        self.svg.select("text")
-          .text(results[3].formatted_address.toUpperCase());
-      } else {
-        self.svg.select("text")
-          .text(results[2].formatted_address.toUpperCase());
-      }
+      var text = self.parseLocation(results);
+      self.showLocationText(text);
     }
   });
 
+}
+
+Map.prototype.showLocationText = function(text) {
+  $('#location-display').text(text);
+  $('#location-display').removeClass('hidden');
+}
+
+Map.prototype.parseLocation = function(results) {
+  var self = this;
+  var locationComponents = [];
+  for(var i = results.length - 1; locationComponents.length < 3; i--) {
+    var addressComponents = results[i].address_components
+    for(var j = 0; j < addressComponents.length; j++) {
+      if(locationComponents.indexOf(addressComponents[j].long_name) === -1 && self.addressNotPostalCode(addressComponents[j])) {
+        locationComponents.unshift(addressComponents[j].long_name)
+      }
+    }
+  }
+  return locationComponents.join(', ');
+}
+
+Map.prototype.addressNotPostalCode = function(addressComponent) {
+  for(var i = 0; i < addressComponent.types.length; i++) {
+    if (addressComponent.types[i] == 'postal_code')
+      return false;
+  }
+  return true;
 }
 
