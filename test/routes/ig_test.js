@@ -5,7 +5,7 @@ var instagram = require('../helpers/stub_instagram.js');
 var updateObject = require('../fixtures/ig_update_object.json');
 var queryResponse = require('../fixtures/ig_query_response.json');
 
-describe('/ig', function() {
+describe('Instagram controller', function() {
   var self = this;
 
   before(function(done) {

@@ -3,12 +3,11 @@ var instagram = require('../../lib/instagram')
 var updateObject = require('../fixtures/ig_update_object.json');
 var queryResponse = require('../fixtures/ig_query_response.json');
 
-describe('instagram module', function() {
+describe('Instagram module', function() {
 
   describe('#parseUpdateObjects', function() {
 
     it('should return hashtags as strings', function(done) {
-
       instagram.parseUpdateObjects(updateObject, function(hashTag) {
         hashTag.should.equal(updateObject[0].object_id)
         done();
