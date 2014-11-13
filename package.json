@@ -22,5 +22,11 @@
     "express-session" : "*",
     "express-sslify" : "0.1.0",
     "limiter": "*"
+  },
+  "devDependencies": {
+    "mocha": "1.17.1",
+    "should": "~3.1.2",
+    "sinon": "~1.8.1",
+    "supertest": "~0.9.0"
   }
 }
