@@ -1,7 +1,11 @@
   #realtime
 =================
 
-Live: [http://noded3.herokuapp.com](http://noded3.herokuapp.com)
+[http://noded3.herokuapp.com](http://noded3.herokuapp.com)
+
+Based on your desired hashtag, view live Instagram posts around the world beautifully in realtime.
+
+We wanted to mainly experiment witth D3.js, as well as build a Node.js application from scratch. Also utilizes websockets to provide live updates to the client from the server.
 
 ###To run locally:
 
